@@ -8,6 +8,9 @@ import java.io.IOException;
 public class ExcelDecompressorTest {
     
     @Test
+    public void test(){
+        
+    }
 
     @Test
     public void testUnzipExcelFile() throws IOException {
