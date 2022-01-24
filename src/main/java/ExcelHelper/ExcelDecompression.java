@@ -20,9 +20,13 @@ import org.slf4j.LoggerFactory;
  */
 public class ExcelDecompression {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("StepImplementation jar Initialization");
     public static final byte[] BUFFEBYTESIZE = new byte[1024];
     public static final int BUFFERSIZE = 2048;
+
+    public static void main(String[] args) throws IOException {
+        new ExcelDecompression().extractExcelFile("C:\\Users\\UB217ZA\\Downloads\\Github Clone NGTP\\etaf-helpers\\src\\test\\resources\\testdata\\pageobjects\\PageObjects.xlsx","C:\\Users\\UB217ZA\\Downloads\\Github Clone NGTP\\etaf-helpers\\src\\test\\resources\\testdata\\pageobjects\\pageobjectsdecompressedfolder");
+        System.out.println("Excel file is Decompressed !!");
+    }
 
     /**
      * This method is used to extract excel file data to specified folder directory
@@ -32,6 +36,7 @@ public class ExcelDecompression {
      */
     public static void extractExcelFile(String excelFile, String destLocationFolder) throws IOException {
         File file = new File(excelFile);
+//        Logger LOGGER = LoggerFactory.getLogger("StepImplementation jar Initialization");
 
         try (ZipFile zip = new ZipFile(file)) {
             new File(destLocationFolder).mkdir();
@@ -48,7 +53,7 @@ public class ExcelDecompression {
                 // create the parent directory structure if needed
                 destinationParent.mkdirs();
                 if (!entry.isDirectory()) {
-                    LOGGER.info("destFile file created from extracted excel file: {}", destFile);
+//                    LOGGER.info("destFile file created from extracted excel file: {}", destFile);
                     BufferedInputStream is = new BufferedInputStream(zip.getInputStream(entry));
                     int currentByte;
                     // establish buffer for writing file
@@ -67,55 +72,6 @@ public class ExcelDecompression {
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * This method is used to create excel file from the decompressed excel data files located in the folder directory
-     *
-     * @param sourceFolderLocation : String : path to the folder in which extracted excel file data is present
-     * @param targetExcelFileName  : String : path with excel file name with extension
-     */
-    public static void zipFolderToCreateExcel(String sourceFolderLocation, String targetExcelFileName) throws IOException {
-
-        Path source = Paths.get(sourceFolderLocation);
-
-        try (
-                ZipOutputStream zos = new ZipOutputStream(
-                        new FileOutputStream(targetExcelFileName))
-        ) {
-            Files.walkFileTree(source, new SimpleFileVisitor<>() {
-                @Override
-                public FileVisitResult visitFile(Path file,
-                                                 BasicFileAttributes attributes) {
-                    if (attributes.isSymbolicLink()) {
-                        return FileVisitResult.CONTINUE;
-                    }
-
-                    try (FileInputStream fis = new FileInputStream(file.toFile())) {
-                        Path targetFile = source.relativize(file);
-                        zos.putNextEntry(new ZipEntry(targetFile.toString()));
-
-                        int len;
-                        while (( len = fis.read(BUFFEBYTESIZE)) > 0) {
-                            zos.write(BUFFEBYTESIZE, 0, len);
-                        }
-                        zos.closeEntry();
-                        LOGGER.info("Zip file processed: {}", file);
-
-                    } catch (IOException e) {
-                        LOGGER.error(e.getMessage());
-                    }
-                    return FileVisitResult.CONTINUE;
-                }
-
-                @Override
-                public FileVisitResult visitFileFailed(Path file, IOException exc) {
-                    LOGGER.error("Unable to zip : {}, {}}", file, exc);
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-
         }
     }
 
