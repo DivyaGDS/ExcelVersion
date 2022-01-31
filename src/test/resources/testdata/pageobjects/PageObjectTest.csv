@@ -5,7 +5,7 @@ span,search_button,,nav-search-submit-text,,
 link,tile_1_item,,,"(//div[@id=""desktop-grid-1""]//a)[::index::]",
 link,tile_2_item,,,"(//div[@id=""desktop-grid-2""]//a)[::index::]",
 qlink,quick_link,,,/html/body/div[1]/header/div/div[1]/p/a,
-select,search_dropdown,,searchDropdownBox,,
+select,search_dropdown,,searchDropdownBox2,,
 select,search_dropdown2,,searchDropdownBox,,
 option,booksOption,,,,"[value=""search-alias=stripbooks""]"
 ,account_list,,,"//*[@id=""nav-link-accountList""]",
