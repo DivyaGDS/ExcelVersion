@@ -10,6 +10,7 @@ select,search_dropdown2,,searchDropdownBox2,,
 option,booksOption,,,,"[value=""search-alias=stripbooks""]"
 ,account_list,,,"//*[@id=""nav-link-accountList""]",
 ,signin,,,"//*[@id=""nav-flyout-ya-signin""]/a",
+,signin2,,,"//*[@id=""nav-flyout-ya-signin2""]/a",
 ,account_name,,,"//*[@id=""nav-link-accountList""]/span[1]",
 ,expected_message,"Hello, Chase",,,
 ,your_account,,,"//*[@id=""nav-al-your-account""]/a[2]",
