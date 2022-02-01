@@ -22,18 +22,18 @@ public class ExcelDecompression {
     public static final int BUFFERSIZE = 2048;
 
     public static void main(String[] args) throws IOException {
-        new ExcelDecompression().extractExcelFile(".\\src\\test\\resources\\testdata\\pageobjects\\PageObjects.xlsx",".\\src\\test\\resources\\testdata\\pageobjects\\pageobjectsdecompressedfolder");
+        new ExcelDecompression().extractExcelFile("./src/test/resources/testdata/pageobjects/PageObjects.xlsx","./src/test/resources/testdata/pageobjects/pageobjectsdecompressedfolder");
         System.out.println("Excel file is Decompressed Test !!");
     }
 
     /**
      * This method is used to extract excel file data to specified folder directory
      *
-     * @param excelFile          : String : path to the excel file with extension
+     * @param sourceExcel          : String : path to the excel file with extension
      * @param destLocationFolder : String : path to the folder in which extracted excel file data to be stored
      */
-    public static void extractExcelFile(String excelFile, String destLocationFolder) throws IOException {
-        File file = new File(excelFile);
+    public static void extractExcelFile(String sourceExcel, String destLocationFolder) throws IOException {
+        File file = new File(sourceExcel);
 //        Logger LOGGER = LoggerFactory.getLogger("StepImplementation jar Initialization");
 
         try (ZipFile zip = new ZipFile(file)) {
