@@ -10,8 +10,8 @@
 
 DecompressExcel(){
 java -cp ./target/classes ExcelHelper.ExcelDecompression
-echo "In intellij precommit working"
-java -cp ./target/classes ExcelHelper.XlsxtoCSV
+echo "In intellij precommit working Project level hook"
+#java -cp ./target/classes ExcelHelper.XlsxtoCSV
 git add .;
 }
 
