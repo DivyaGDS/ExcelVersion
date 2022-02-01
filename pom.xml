@@ -61,10 +61,32 @@
           <version>3.1.0</version>
         </plugin>
         <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+<!--        <plugin>-->
+<!--          <artifactId>maven-resources-plugin</artifactId>-->
+<!--          <version>3.0.2</version>-->
+<!--        </plugin>-->
         <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
+              <artifactId>maven-resources-plugin</artifactId>
+              <version>3.0.2</version>
+              <executions>
+                <execution>
+                  <id>copy-hooks</id>
+                  <phase>install</phase>
+                  <goals>
+                    <goal>copy-resources</goal>
+                  </goals>
+                  <configuration>
+                    <outputDirectory>${basedir}/.git/hooks</outputDirectory>
+                    <resources>
+                      <resource>
+                        <directory>githooks</directory>
+                      </resource>
+                    </resources>
+                  </configuration>
+                </execution>
+              </executions>
         </plugin>
+
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>

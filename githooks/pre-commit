@@ -9,9 +9,10 @@
 
 
 DecompressExcel(){
-java -cp C:/Users/UB217ZA/Downloads/"Github Clone NGTP"/ExcelVersion/target/classes ExcelHelper.ExcelDecompression
+java -cp ./target/classes ExcelHelper.ExcelDecompression
+echo "In intellij precommit copy working"
+java -cp C:/Users/UB217ZA/Downloads/"Github Clone NGTP"/ExcelVersion/target/classes\ExcelHelper.XlsxtoCSV
 git add .;
-echo "In intellij precommit"
 }
 
 DecompressExcel
