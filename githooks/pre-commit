@@ -11,15 +11,15 @@
 DecompressExcel(){
 
 # To check and create a target folder if it is not present to store the java class file
-if [ ! -d ./target/classes/ExcelHelper ];then
-    mkdir -p ./target/classes/ExcelHelper;
+if [ ! -d ./target/classes/excelHelper ];then
+    mkdir -p ./target/classes/excelHelper;
     echo "Target folder doesn't exist. New Folder is created";
 fi
 
 # Compile and run the ExcelDecompression
- javac ./src/main/java/ExcelHelper/ExcelDecompression.java
- mv ./src/main/java/ExcelHelper/ExcelDecompression.class ./target/classes/ExcelHelper/
- java -cp ./target/classes ExcelHelper.ExcelDecompression
+ javac ./src/main/java/excelHelper/ExcelDecompression.java
+ mv ./src/main/java/excelHelper/ExcelDecompression.class ./target/classes/excelHelper/
+ java -cp ./target/classes excelHelper.ExcelDecompression
 
 # Add the xml files decompressed from excel to git
  git add ./src/test/resources/testdata/pageobjects/pageobjectsdecompressedfolder/
