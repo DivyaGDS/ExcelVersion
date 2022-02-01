@@ -1,4 +1,4 @@
-package ExcelHelper;
+package excelHelper;
 
 import org.junit.Test;
 
