@@ -25,7 +25,7 @@ public class ExcelDecompression {
 
     public static void main(String[] args) throws IOException {
         new ExcelDecompression().extractExcelFile("C:\\Users\\UB217ZA\\Downloads\\Github Clone NGTP\\ExcelVersion\\src\\test\\resources\\testdata\\pageobjects\\PageObjects.xlsx","C:\\Users\\UB217ZA\\Downloads\\Github Clone NGTP\\ExcelVersion\\src\\test\\resources\\testdata\\pageobjects\\pageobjectsdecompressedfolder");
-        System.out.println("Excel file is Decompressed !!");
+        System.out.println("Excel file is Decompressed Test !!");
     }
 
     /**
