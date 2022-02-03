@@ -10,24 +10,37 @@
 
 DecompressExcel(){
 
+#Location of files
+targetClassFolder="./target/classes/excelHelper"
+excelMainClass="./src/main/java/excelHelper/ExcelDecompression.java"
+excelCompiledClass="./src/main/java/excelHelper/ExcelDecompression.class"
+runner="./target/classes excelHelper.ExcelDecompression"
+
 # To check and create a target folder if it is not present to store the java class file
-if [ ! -d ./target/classes/excelHelper ];then
-    mkdir -p ./target/classes/excelHelper;
+if [ ! -d $targetClassFolder ];then
+    mkdir -p $targetClassFolder;
     echo "Target folder doesn't exist. New Folder is created";
 fi
 
-# Compile and run the ExcelDecompression
- javac ./src/main/java/excelHelper/ExcelDecompression.java
- mv ./src/main/java/excelHelper/ExcelDecompression.class ./target/classes/excelHelper/
- java -cp ./target/classes excelHelper.ExcelDecompression
+# Get the list of files staged for commit and check if it an excel
+# If its an excel get the name of the file and pass a sourceFile Parameter to ExcelCompression method
+filesList=($(git diff --name-only --cached))
 
-# Add the xml files decompressed from excel to git
- git add ./src/test/resources/testdata/pageobjects/pageobjectsdecompressedfolder/
+for i in ${!filesList[@]}; do
+  if [[ ${filesList[$i]} =~ \.xlsx$ ]];then
+  	sourceFile=./${filesList[$i]}
+	  destFolder=${sourceFile/.xlsx/DecompressedFolder}
+  	echo "Source File Excel is $sourceFile, Dest folder is $destFolder"
 
- echo "In Precommit global hook"
+	# Compile and run the ExcelDecompression
+	  javac $excelMainClass
+  	mv $excelCompiledClass "${targetClassFolder}/"
+  	java -cp $runner $sourceFile $destFolder
+
+	# Add the xml files decompressed from excel to git
+	  git add "${destFolder}/"
+  fi
+done
 }
 
 DecompressExcel
-
-
-

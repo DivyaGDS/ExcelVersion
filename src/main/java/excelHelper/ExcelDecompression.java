@@ -17,8 +17,8 @@ public class ExcelDecompression {
     public static final int BUFFERSIZE = 2048;
 
     public static void main(String[] args) throws IOException {
-        new ExcelDecompression().extractExcelFile("./src/test/resources/testdata/pageobjects/PageObjects.xlsx","./src/test/resources/testdata/pageobjects/pageobjectsdecompressedfolder");
-        System.out.println("Excel file is Decompressed Test !!");
+        extractExcelFile(args[0],args[1]);
+        System.out.println("Excel file is Decompressed !!");
     }
 
     /**
