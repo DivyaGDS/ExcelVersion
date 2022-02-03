@@ -7,4 +7,4 @@
 #
 # To enable this hook, rename this file to "pre-merge-commit".
 
-echo "in post merge intellij maven test"
+echo "in post merge"
