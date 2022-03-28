@@ -1,0 +1,2 @@
+element_type	variable	value	id	class	name	xpath	css	linktext	partiallinktext	tagname
+	login_security					"//*[@id=""a-page""]/div[1]/div/div[2]/div[2]/a"				
