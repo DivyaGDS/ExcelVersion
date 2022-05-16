@@ -1,0 +1,7 @@
+# [core]
+# 	hooksPath = githooks
+[diff "zip"]
+binary = True
+textconv = python C:/Users/UB217ZA/Downloads/excel-version-control/git_diff_xlsx.py
+[alias]
+        cmd = !sh C:/Users/UB217ZA/Downloads/excel-version-control/.git/hooks/pre-merge-commit

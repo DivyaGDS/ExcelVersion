@@ -1,0 +1,108 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git merge" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message to
+# stderr if it wants to stop the merge commit.
+#
+# To enable this hook, rename this file to "pre-merge-commit".
+
+#get REPO top level dir
+REPO=`git rev-parse --show-toplevel`
+
+if [[ $? -ne 0 ]]
+then
+    echo "Not in git repo"
+    exit 1
+fi
+
+git_branch=`git rev-parse --abbrev-ref HEAD 2>/dev/null`
+#get relative path
+relative_path=`git rev-parse --show-prefix|sed "s/\/$//"`
+GIT_REMOTE_URL_UNFINISHED=`git config --get remote.origin.url|sed -s "s/^ssh/http/; s/git@//; s/.git$//;"`
+GIT_REMOTE_URL="$(dirname $GIT_REMOTE_URL_UNFINISHED)/$(basename $GIT_REMOTE_URL_UNFINISHED)/$relative_path"
+
+echo "remote url.."$GIT_REMOTE_URL
+
+[ -f "$(git rev-parse --show-toplevel)/.git/refs/heads/master" ] && defaultbranch=master || defaultbranch=main
+
+echo "default branch..."$defaultbranch
+echo "test..."$(git rev-parse --show-toplevel)
+
+# File path
+properties_file="./src/main/resources/excelversioncontrol.properties"
+
+# Keys in Property File
+excelname="excel_file_path"
+versioncontrolType="version_control_type"
+allExcel="version_control_all_excel"
+
+# Variable to hold the Property Value
+prop_value=""
+getProperty()
+{
+prop_key=$1
+prop_value=`cat ${properties_file} | grep ${prop_key} | cut -d'=' -f2`
+}
+
+#Get the property value
+getProperty ${excelname}
+excelname=${prop_value}
+getProperty ${versioncontrolType}
+versioncontrol=${prop_value}
+getProperty ${allExcel}
+allExcel=${prop_value}
+
+
+echo $excelname
+echo $allExcel
+
+# Get the list of files staged for commit and check if it an excel
+filesList=($(git diff --name-only --diff-filter=U))
+
+# ls -lah /tmp
+# Delete the temp file
+# rm -f "$tfile"
+
+# Get the name of the excel files and pass a sourceFile Parameter to ExcelCompression method
+for i in ${!filesList[@]}; do  
+    if ([[ $allExcel == "yes" ]] && [[ ${filesList[$i]} =~ \.xlsx$ ]]) || ([[ $allExcel == "no" ]] && [[ ${excelList[*]} =~ ${filesList[$i]} ]]); then
+	if [[ $versioncontrol == "xml" ]];then
+  		sourceFile=./${filesList[$i]}
+        destFolder=${sourceFile/.xlsx/DecompressedFolder}
+		# destFolder= ${sourceFile##*/} #${sourceFile/.xlsx/DecompressedFolder}
+        # echo "tess.."${sourceFile##*}/.xlsx/DecompressedFolder
+        echo "sourcefile.."$sourceFile
+        echo "dest folder.."$destFolder
+		# echo "desss.." ${destFolder/.xlsx/DecompressedFolder}
+        method="Decompression"
+        
+        
+        # tfile=$(mktemp -d /tmp/test1)
+        # echo "temp folder"$tfile
+		# Compile and run the ExcelDecompression
+#		java -cp C:/Users/UB217ZA/Downloads/excel-version-control/target/classes excelHelper.ExcelHelper $method $sourceFile $destFolder
+        # echo "temp folder"$tfile
+        echo "in local repo.."./${filesList[$i]}
+	    echo "remote url.."$GIT_REMOTE_URL"tree"/$defaultbranch/${filesList[$i]}
+        # sourceFile2=$GIT_REMOTE_URL"tree"/$defaultbranch/${filesList[$i]}
+        sourceFile2="C:/Users/UB217ZA/Downloads/excel-version-control/src/test/Test.xlsx"
+        echo $sourceFile2
+        # wget https://github.com/DivyaGDS/excel-version-control/blob/main/src/test/resources/pg.xlsx
+        destFolder2=${sourceFile2/.xlsx/DecompressedFolder2}
+        # echo $destFolder2
+#        java -cp C:/Users/UB217ZA/Downloads/excel-version-control/target/classes excelHelper.ExcelHelper $method $sourceFile2 $destFolder2
+#        git diff $destFolder $destFolder2
+    # git add $destFolder
+ 	elif [[ $versioncontrol == "csv" ]];then
+		sourceFile=./${filesList[$i]}
+		destFolder=${sourceFile/.xlsx/Converted.csv}
+		method="ConvertToCSV"
+
+		# Compile and run the ExcelToCSVConvertion
+		java -cp ~/Downloads/testversioncontrol/excelversion-ngtp-trunk/src/test/java/tempjar/excel-version-control-1.0.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
+	  #git add destFolder
+
+	fi
+    fi
+done
