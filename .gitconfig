@@ -1,2 +1,4 @@
 # [core]
 # 	hooksPath = githooks
+[merge "ours"]
+    driver = true
