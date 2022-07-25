@@ -36,7 +36,7 @@ link,rich_dad, , , , ,//*[contains(text()COMMA 'Rich Dad Poor Dad: What the Rich
 link,four_disciplines, , , , ,//*[contains(text()COMMA 'The 4 Disciplines of Execution: Achieving Your Wildly Important Goals')],
 link,google_netbook, , , , ,(//*[contains(text()COMMA'Google Pixelbook')])[1],
 link,google_pixelbook_go, , , , ,(//*[contains(text()COMMA'Google Pixelbook Go -')])[1],
- ,new commit from exceltest,
+ ,new commit from exceltest,testing, , , ,//*[contains],
 Sheet Name :ProductPage
 element_type,variable,value,id,class,name,xpath,css,linktext,partiallinktext,tagname,
 div,product_title, ,productTitle,
