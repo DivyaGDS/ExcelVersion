@@ -24,10 +24,6 @@ public class ExcelHelper {
     public static void main(String[] args) throws IOException {
 
         switch(args[0]) {
-            case "Compression":
-                createExcelFile(args[1],args[2]);
-                System.out.println("Excel file is Compressed !!");
-                break;
             case "Decompression":
                 extractExcelFile(args[1],args[2]);
                 System.out.println("Excel file is Decompressed !!");
@@ -35,6 +31,10 @@ public class ExcelHelper {
             case "ConvertToCSV":
                 ExcelToCsv(args[1],args[2]);
                 System.out.println("Excel file is Converted To Csv !!");
+                break;
+            case "Compression":
+                createExcelFile(args[1],args[2]);
+                System.out.println("Excel file is Compressed !!");
                 break;
             case "ConvertToExcel":
                 CSVToExcel(args[1],args[2]);
