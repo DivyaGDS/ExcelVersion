@@ -14,17 +14,17 @@ public class ExcelDecompressorTest {
 
     @Test
     public void testUnzipExcelFile() throws IOException {
-        String sourceExcelFilePath = "src/test/resources/ExcelTest.xlsx";
-        String destDirectoryPath = "src/test/resources/Excelpageobjectsdecompressedfolder";
+        String sourceExcelFilePath = "src/message/resources/ExcelTest.xlsx";
+        String destDirectoryPath = "src/message/resources/Excelpageobjectsdecompressedfolder";
         ExcelHelper.extractExcelFile(sourceExcelFilePath, destDirectoryPath);
     }
 
     @Test
     public void testCreateExcelFromDir() throws IOException {
-        String sourceDirectoryPath = "src/test/resources/testdata/pageobjects/pageobjectsdecompressedfolder";
-        String destExcelFilePath = "src/test/resources/testdata/pageobjects/PageObjects.xlsx";
+        String sourceDirectoryPath = "src/message/resources/testdata/pageobjects/pageobjectsdecompressedfolder";
+        String destExcelFilePath = "src/message/resources/testdata/pageobjects/PageObjects.xlsx";
 //        ExcelDecompression.zipFolderToCreateExcel(sourceDirectoryPath, destExcelFilePath);
-        //test
+        //message
     }
 
 

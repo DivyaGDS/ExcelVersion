@@ -1,11 +1,11 @@
 package excelHelper;
 
 //import org.apache.commons.io.FilenameUtils;
-//import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-//import org.apache.poi.ss.usermodel.Cell;
-//import org.apache.poi.ss.usermodel.Row;
-//import org.apache.poi.ss.usermodel.Sheet;
-//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.nio.file.*;
@@ -32,14 +32,14 @@ public class ExcelHelper {
                 extractExcelFile(args[1],args[2]);
                 System.out.println("Excel file is Decompressed !!");
                 break;
-//            case "ConvertToCSV":
-//                ExcelToCsv(args[1],args[2]);
-//                System.out.println("Excel file is Converted To Csv !!");
-//                break;
-//            case "ConvertToExcel":
-//                CSVToExcel(args[1],args[2]);
-//                System.out.println("CSV file is Converted To Excel !!");
-//                break;
+            case "ConvertToCSV":
+                ExcelToCsv(args[1],args[2]);
+                System.out.println("Excel file is Converted To Csv !!");
+                break;
+            case "ConvertToExcel":
+                CSVToExcel(args[1],args[2]);
+                System.out.println("CSV file is Converted To Excel !!");
+                break;
             
         }
     }
@@ -151,140 +151,140 @@ public class ExcelHelper {
      * @param destLocationFolder : String : path to the folder in which extracted excel file data to be stored
      */
 
-//    public static void ExcelToCsv(String sourceExcel, String destLocationFolder) throws IOException {
-//        // For storing data into CSV files
-//        StringBuffer data = new StringBuffer();
-//
-//        try {
-//            FileOutputStream fos = new FileOutputStream(destLocationFolder);
-//            // Get the workbook object for XLSX file
-//            FileInputStream fis = new FileInputStream(sourceExcel);
-//            XSSFWorkbook workbook = new XSSFWorkbook(fis);
-//
+    public static void ExcelToCsv(String sourceExcel, String destLocationFolder) throws IOException {
+        // For storing data into CSV files
+        StringBuffer data = new StringBuffer();
+
+        try {
+            FileOutputStream fos = new FileOutputStream(destLocationFolder);
+            // Get the workbook object for XLSX file
+            FileInputStream fis = new FileInputStream(sourceExcel);
+            XSSFWorkbook workbook = new XSSFWorkbook(fis);
+
 //            String ext = FilenameUtils.getExtension(sourceExcel.toString());
-//
-////            if (ext.equalsIgnoreCase("xlsx")) {
-////                workbook = new XSSFWorkbook(fis);
-////            } else if (ext.equalsIgnoreCase("xls")) {
-////                workbook = new HSSFWorkbook(fis);
-////            }
-//
-//            // Get first sheet from the workbook
-//            int numberOfSheets = workbook.getNumberOfSheets();
-//            Row row;
-//            Cell cell;
-//            // Iterate through each rows from first sheet
-//            for (int i = 0; i < numberOfSheets; i++) {
-//                data.append("Sheet Name :"+workbook.getSheetName(i)+"\n");
-//                Sheet sheet = workbook.getSheetAt(i);
-//                Iterator<Row> rowIterator = sheet.iterator();
-//
-//                for(Row row1 : sheet) {
-//                    for(int cn=0; cn<row1.getLastCellNum(); cn++) {
-//                        // If the cell is missing from the file, generate a blank one
-//                        // (Works by specifying a MissingCellPolicy)
-//                        Cell cell1 = row1.getCell(cn, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-//                    }
-//                }
-//
-//                while (rowIterator.hasNext()) {
-//                    row = rowIterator.next();
-//                    // For each row, iterate through each columns
-//                    Iterator<Cell> cellIterator = row.cellIterator();
-//                    while (cellIterator.hasNext()) {
-//                        cell = cellIterator.next();
-//                        switch (cell.getCellType()) {
-//                            case BOOLEAN:
-//                                data.append(cell.getBooleanCellValue() + ",");
-//                                break;
-//                            case NUMERIC:
-//                                data.append(cell.getNumericCellValue() + ",");
-//                                break;
-//                            case BLANK:
-//                                data.append(" " + ",");
-//                                break;
-//                            case STRING:
-//                                String testcell = cell.getStringCellValue();
-//                                if (cell.getStringCellValue().contains(",")) {
-//                                    testcell = cell.getStringCellValue().replaceAll(",", "COMMA");
-//                                }
-//                                data.append(testcell).append(",");
-//                                break;
-//                            default:
-//                                data.append(cell + ",");
-//                        }
-//                    }
-//                    data.append('\n'); // appending new line after each row
-//                }
-//
+
+//            if (ext.equalsIgnoreCase("xlsx")) {
+//                workbook = new XSSFWorkbook(fis);
+//            } else if (ext.equalsIgnoreCase("xls")) {
+//                workbook = new HSSFWorkbook(fis);
 //            }
-//            fos.write(data.toString().getBytes());
-//            fos.close();
-//
-//        } catch (Exception ioe) {
-//            ioe.printStackTrace();
+
+            // Get first sheet from the workbook
+            int numberOfSheets = workbook.getNumberOfSheets();
+            Row row;
+            Cell cell;
+            // Iterate through each rows from first sheet
+            for (int i = 0; i < numberOfSheets; i++) {
+                data.append("Sheet Name :"+workbook.getSheetName(i)+"\n");
+                Sheet sheet = workbook.getSheetAt(i);
+                Iterator<Row> rowIterator = sheet.iterator();
+
+                for(Row row1 : sheet) {
+                    for(int cn=0; cn<row1.getLastCellNum(); cn++) {
+                        // If the cell is missing from the file, generate a blank one
+                        // (Works by specifying a MissingCellPolicy)
+                        Cell cell1 = row1.getCell(cn, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    }
+                }
+
+                while (rowIterator.hasNext()) {
+                    row = rowIterator.next();
+                    // For each row, iterate through each columns
+                    Iterator<Cell> cellIterator = row.cellIterator();
+                    while (cellIterator.hasNext()) {
+                        cell = cellIterator.next();
+                        switch (cell.getCellType()) {
+                            case BOOLEAN:
+                                data.append(cell.getBooleanCellValue() + ",");
+                                break;
+                            case NUMERIC:
+                                data.append(cell.getNumericCellValue() + ",");
+                                break;
+                            case BLANK:
+                                data.append(" " + ",");
+                                break;
+                            case STRING:
+                                String testcell = cell.getStringCellValue();
+                                if (cell.getStringCellValue().contains(",")) {
+                                    testcell = cell.getStringCellValue().replaceAll(",", "COMMA");
+                                }
+                                data.append(testcell).append(",");
+                                break;
+                            default:
+                                data.append(cell + ",");
+                        }
+                    }
+                    data.append('\n'); // appending new line after each row
+                }
+
+            }
+            fos.write(data.toString().getBytes());
+            fos.close();
+
+        } catch (Exception ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    /**
+     * This method is used to Decompress the Excel - Extract excel file to specified folder directory
+     *
+     * @param sourceExcel        : String : path to the excel file with extension
+     * @param destLocationFolder : String : path to the folder in which extracted excel file data to be stored
+     */
+
+    public static void CSVToExcel(String sourceExcel, String destLocationFolder) throws IOException {
+        FileOutputStream fos = new FileOutputStream(destLocationFolder);
+        String thisLine;
+        BufferedReader myInput = new BufferedReader(new FileReader(sourceExcel));
+        int i = 0;
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+//        if (excelFileType.equalsIgnoreCase("xlsx")) {
+//            workbook = new XSSFWorkbook();
+//        } else if (excelFileType.equalsIgnoreCase("xls")) {
+//            workbook = new HSSFWorkbook();
 //        }
-//    }
-//
-//    /**
-//     * This method is used to Decompress the Excel - Extract excel file to specified folder directory
-//     *
-//     * @param sourceExcel        : String : path to the excel file with extension
-//     * @param destLocationFolder : String : path to the folder in which extracted excel file data to be stored
-//     */
-//
-//    public static void CSVToExcel(String sourceExcel, String destLocationFolder) throws IOException {
-//        FileOutputStream fos = new FileOutputStream(destLocationFolder);
-//        String thisLine;
-//        BufferedReader myInput = new BufferedReader(new FileReader(sourceExcel));
-//        int i = 0;
+
 //        XSSFWorkbook workbook = new XSSFWorkbook();
-//
-////        if (excelFileType.equalsIgnoreCase("xlsx")) {
-////            workbook = new XSSFWorkbook();
-////        } else if (excelFileType.equalsIgnoreCase("xls")) {
-////            workbook = new HSSFWorkbook();
-////        }
-//
-////        XSSFWorkbook workbook = new XSSFWorkbook();
-//        Sheet sheet = null;
-//        ArrayList al = null;
-//        ArrayList arList = null;
-//
-//
-//        while ((thisLine = myInput.readLine()) != null) {
-//            if (thisLine.contains("Sheet Name :")) {
-//                String sheetName = thisLine.split("Sheet Name :")[1];
-//                sheet = workbook.createSheet(sheetName);
-//                arList = new ArrayList();
-//            } else {
-//                al = new ArrayList();
-//                String strar[] = thisLine.split(",");
-//                for (int j = 0; j < strar.length; j++) {
-//                    al.add(strar[j]);
-//                }
-//                arList.add(al);
-//
-//                for (int k = 0; k < arList.size(); k++) {
-//                    ArrayList ardata = (ArrayList) arList.get(k);
-//                    Row row = sheet.createRow((short) 0 + k);
-//                    for (int p = 0; p < ardata.size(); p++) {
-//                        Cell cell = row.createCell((short) p);
-//                        String data = ardata.get(p).toString();
-//                        if (data.contains("COMMA")) {
-//                            cell.setCellValue(data.replaceAll("COMMA", ","));
-//                        } else {
-//                            cell.setCellValue(data);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        workbook.write(fos);
-//        fos.close();
-//        System.out.println("Your excel file has been generated");
-//    }
-//
-//
+        Sheet sheet = null;
+        ArrayList al = null;
+        ArrayList arList = null;
+
+
+        while ((thisLine = myInput.readLine()) != null) {
+            if (thisLine.contains("Sheet Name :")) {
+                String sheetName = thisLine.split("Sheet Name :")[1];
+                sheet = workbook.createSheet(sheetName);
+                arList = new ArrayList();
+            } else {
+                al = new ArrayList();
+                String strar[] = thisLine.split(",");
+                for (int j = 0; j < strar.length; j++) {
+                    al.add(strar[j]);
+                }
+                arList.add(al);
+
+                for (int k = 0; k < arList.size(); k++) {
+                    ArrayList ardata = (ArrayList) arList.get(k);
+                    Row row = sheet.createRow((short) 0 + k);
+                    for (int p = 0; p < ardata.size(); p++) {
+                        Cell cell = row.createCell((short) p);
+                        String data = ardata.get(p).toString();
+                        if (data.contains("COMMA")) {
+                            cell.setCellValue(data.replaceAll("COMMA", ","));
+                        } else {
+                            cell.setCellValue(data);
+                        }
+                    }
+                }
+            }
+        }
+
+        workbook.write(fos);
+        fos.close();
+        System.out.println("Your excel file has been generated");
+    }
+
+
 }

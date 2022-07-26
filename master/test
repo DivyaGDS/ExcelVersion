@@ -100,7 +100,7 @@ for i in ${!filesList[@]}; do
 		method="ConvertToCSV"
 
 		# Compile and run the ExcelToCSVConvertion
-		java -cp ~/Downloads/testversioncontrol/excelversion-ngtp-trunk/src/test/java/tempjar/excel-version-control-1.0.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
+		java -cp ~/Downloads/testversioncontrol/excelversion-ngtp-trunk/src/message/java/tempjar/excel-version-control-1.0.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
 	  #git add destFolder
 
 	fi
