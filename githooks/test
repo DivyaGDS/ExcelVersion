@@ -1,0 +1,6 @@
+#!/bin/sh
+check=$(git merge HEAD)
+echo "check merge branch"$check
+if [[ $check =~ "MERGE_HEAD exists" ]];then
+  echo "Inside merge branch"
+fi
