@@ -1,6 +1,6 @@
 Sheet Name :Amazon
 element_type,variable,value,id,xpath,css,
-data,amazon_home1,http://www.amazon.com,
+data,amazon_home,http://www.amazon.com,
 textbox,search_bar, ,twotabsearchtextbox,
 span,search_button, ,nav-search-submit-text,
 link,tile_1_item, , ,(//div[@id="desktop-grid-1"]//a)[::index::],
