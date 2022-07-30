@@ -2,7 +2,7 @@ Excel Name :./src/test/resources/Test.xlsx
 Sheet Name :Sheet1
 element_type,variable,value,new,header,updatehead,newlyaddded,
 data,home2,http://www.amazon.com,testvalue,new value,divya,divya,
-new data,variable,value,newt,valueadded,divya
+new data,variable,value,newt,valueadded,divya,divya,
 updateconflict,SFSD,SDFS,FEFE,removed,
 update,new,divya,
 divya,
