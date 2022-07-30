@@ -2,6 +2,6 @@ Excel Name :./src/test/resources/Test.xlsx
 Sheet Name :Sheet1
 element_type,variable,value,new,header,
 data,home2,http://www.amazon.com,testvalue,new value,
-new data,variable,value,newt,
+new data,variable,value,newt,valueadded,
 updateconflict,SFSD,SDFS,FEFE,
 update,
