@@ -3,5 +3,5 @@ Sheet Name :Sheet1
 element_type,variable,value,new,header,head,
 data,home2,http://www.amazon.com,testvalue,new value,
 new data,variable,value,newt,valueadded,
-updateconflict,SFSD,SDFS,FEFE,
+updateconflict,SFSD,SDFS,FEFE,valueadded,
 update,
