@@ -1,5 +1,6 @@
-package excelHelper;
+package ExcelHelper;
 
+import excelHelper.ExcelHelper;
 import org.junit.Test;
 
 
