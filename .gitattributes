@@ -1,4 +1,0 @@
-*.xls diff=zip
-# *.xls merge=zip
-# *.xls cat=test
-*.xlsx merge=ours
