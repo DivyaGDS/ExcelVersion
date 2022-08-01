@@ -14,6 +14,7 @@ button,signin, , ,//*[@id="nav-flyout-ya-signin"]/a,
  ,account_name, , ,//*[@id="nav-link-accountList"]/span[1],
  ,expected_message,HelloCOMMA Chase testing no conflicts automerge,
  ,your_account, , ,//*[@id="nav-al-your-account"]/a[2],
+ ,test, , ,//*[@id="test"],
 Sheet Name :SecurityPage
 element_type,variable,value,id,class,name,xpath,css,linktext,partiallinktext,tagname,
  ,edit_name, ,auth-cnep-edit-name-button,
