@@ -12,7 +12,7 @@ option,booksOption, , , ,[value="search-alias=stripbooks"],
  ,account_list, , ,//*[@id="nav-link-accountList"],
  ,signin, , ,//*[@id="nav-flyout-ya-signin"]/a,
  ,account_name, , ,//*[@id="nav-link-accountList"]/span[1],
- ,expected_message,HelloCOMMA Chase ,
+ ,expected_message,HelloCOMMA Chase testing,
  ,your_account, , ,//*[@id="nav-al-your-account"]/a[2],
 Sheet Name :SecurityPage
 element_type,variable,value,id,class,name,xpath,css,linktext,partiallinktext,tagname,
