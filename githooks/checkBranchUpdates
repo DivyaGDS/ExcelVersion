@@ -56,7 +56,11 @@ if [[ $excelversioncontrolEnable == "true" ]];then
     fi
     done
 
-    for i in ${!finalSourceFoldercsv[@]}; do
+    for i in ${!finalSourceFolder[@]}; do
+    echo "final source folder csv.."${finalSourceFolder[i]}
+    done
+
+    for i in ${!finalSourceFolder[@]}; do
      if ([[ $allExcel == "yes" ]]) || ([[ $allExcel == "no" ]] && [[ ${excelList[*]} =~ ${finalSourceFolder[i]}.xlsx ]]); then
     	    if [[ $versioncontrol == "xml" ]];then
       		 sourceFolder=./${finalSourceFolder[$i]}DecompressedFolder
@@ -81,9 +85,9 @@ if [[ $excelversioncontrolEnable == "true" ]];then
 
     		   # Compile and run the ExcelToCSVConvertion
     		   java -cp ~/.m2/repository/com/ey/excel-version-control/$exceljarversion/excel-version-control-$exceljarversion.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
-    	    # git add $destFolder
-           #git commit -m 'Excel file committed' $destFolder --no-verify
-           #git push
+    	    git add $destFolder
+           git commit -m 'Excel file committed' $destFolder --no-verify
+           git push
     	    fi
         fi
     done
