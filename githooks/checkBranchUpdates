@@ -5,9 +5,6 @@
 #
 # To enable this hook, rename this file to "post-update".
 
-#exec git update-server-info
-
-#echo "In excel version control check"
 # File path
 properties_file="./src/main/resources/excelversioncontrol.properties"
 
@@ -40,69 +37,53 @@ allExcel=${prop_value}
 
 
 if [[ $excelversioncontrolEnable == "true" ]];then
+  git pull origin main
   response=$(git pull origin main 2>&1)
-  #echo "rESPONSE OUT IS.."$response
   if [[ $response =~ "Already up to date" ]];then
-    #echo "In already up to date"
-    # Get the list of files staged for commit and check if it an excel
-    filesList=($(git diff --name-only --cached))
+    findpushedfiles=($(git diff --name-only origin/main))
+    notpushed=($(git diff origin/$(git name-rev --name-only HEAD) --name-status))
+    filesList=($(echo ${findpushedfiles[@]} ${notpushed[@]} | tr ' ' '\n' | sort | uniq -u))
+
     if [[ $allExcel == "no" ]];then
       IFS=','
         read -a excelList <<<"$excelname"
     fi
-    finalSourceFoldercsv=()
+
+    finalSourceFolder=()
     for i in ${!filesList[@]}; do
-    if ([[ ${filesList[$i]} =~ "Converted.csv" ]]); then
-              finalSourceFoldercsv+=(${filesList[$i]})
+    if ([[ ${filesList[$i]} =~ "Converted.csv" ]]) || ([[ ${filesList[$i]} =~ "DecompressedFolder" ]]); then
+              finalSourceFolder+=(${filesList[$i]})
     fi
     done
-
-    #for i in ${!finalSourceFoldercsv[@]}; do
-    #echo "final source folder csv.."${finalSourceFoldercsv[i]}
-    #done
 
     for i in ${!finalSourceFoldercsv[@]}; do
      if ([[ $allExcel == "yes" ]]) || ([[ $allExcel == "no" ]] && [[ ${excelList[*]} =~ ${finalSourceFolder[i]}.xlsx ]]); then
     	    if [[ $versioncontrol == "xml" ]];then
       		 sourceFolder=./${finalSourceFolder[$i]}DecompressedFolder
-    		destFile=./${finalSourceFolder[i]}.xlsx
-    		method="Compression"
-      		#echo "Source File Excel is $sourceFolder"
-    		#echo "Dest folder is $destFile"
-    		 #           echo "method.."$method
+    	     destFile=./${finalSourceFolder[i]}.xlsx
+    		   method="Compression"
+      		echo "Source File Excel is $sourceFolder"
+    		  echo "Dest folder is $destFile"
+    		            echo "method.."$method
     		    # Compile and run the ExcelDecompression
-          #  java -cp ~/.m2/repository/com/ey/excel-version-control/$exceljarversion/excel-version-control-$exceljarversion.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
+            java -cp ~/.m2/repository/com/ey/excel-version-control/$exceljarversion/excel-version-control-$exceljarversion.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
            # git add $destFolder
+            git commit -m 'Excel file committed' $destFolder --no-verify
+            git push
     	  elif [[ $versioncontrol == "csv" ]];then
-    	  #echo"inside csv"
     	      if [[ ! -d "excelversioncontrol" ]];then
           	        mkdir "excelversioncontrol"
           	fi
-    		    sourceFile=./${finalSourceFoldercsv[$i]}
+    		    sourceFile=./${finalSourceFolder[$i]}
     		    destFolder=$(head -n 1 $sourceFile)
     		    destFolder=${destFolder/Excel\ Name\ :/}
-
-    #           read -a excelListMatch <<<"${filesList[*]///}"
-    #		      for i in ${!filesList[@]}; do
-    #		        newfile=${filesList[$i]//\/}
-     #                      if ([[ $destFolder =~ ./$newfile ]]); then
-      #                              destFolder=./${filesList[$i]}
-       #                    fi
-        #              done
-
     		    method="ConvertToExcel"
-    		    #echo "source file---"$sourceFile
-                #echo "dest file---"$destFolder
-               # echo "method---"$method
 
     		   # Compile and run the ExcelToCSVConvertion
     		   java -cp ~/.m2/repository/com/ey/excel-version-control/$exceljarversion/excel-version-control-$exceljarversion.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
-
-    #        java -cp ~/src/test/resources/jarfile/excel-version-control-1.0.5.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
-    	      git add $destFolder
-    	   # git add $destFolder
-           git commit -m 'success' $destFolder --no-verify
-           git push
+    	    # git add $destFolder
+           #git commit -m 'Excel file committed' $destFolder --no-verify
+           #git push
     	    fi
         fi
     done
