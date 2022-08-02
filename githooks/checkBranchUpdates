@@ -67,7 +67,7 @@ if [[ $excelversioncontrolEnable == "true" ]];then
     		            echo "method.."$method
     		    # Compile and run the ExcelDecompression
             java -cp ~/.m2/repository/com/ey/excel-version-control/$exceljarversion/excel-version-control-$exceljarversion.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
-            git add $destFolder
+           # git add $destFolder
             git commit -m 'Excel file committed' $destFolder --no-verify
             git push
     	  elif [[ $versioncontrol == "csv" ]];then
@@ -81,9 +81,9 @@ if [[ $excelversioncontrolEnable == "true" ]];then
 
     		   # Compile and run the ExcelToCSVConvertion
     		   java -cp ~/.m2/repository/com/ey/excel-version-control/$exceljarversion/excel-version-control-$exceljarversion.jar excelHelper.ExcelHelper $method $sourceFile $destFolder
-    	     git add $destFolder
-           git commit -m 'Excel file committed' $destFolder --no-verify
-           git push
+    	    # git add $destFolder
+           #git commit -m 'Excel file committed' $destFolder --no-verify
+           #git push
     	    fi
         fi
     done
