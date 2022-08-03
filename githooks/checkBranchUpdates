@@ -1,0 +1,102 @@
+#!/bin/sh
+#
+# An example hook script to prepare a packed repository for use over
+# dumb transports.
+#
+# To enable this hook, rename this file to "post-update".
+
+# File path
+properties_file="./src/main/resources/excelversioncontrol.properties"
+
+# Latest version of excel version control library
+exceljarversion=1.0.5
+
+# Keys in Property File
+excelversioncontrolEnable="excelversioncontrol_enable"
+excelname="excelversioncontrol_filepath"
+versioncontrolType="excelversioncontrol_type"
+allExcel="excelversioncontrol_allexcel"
+
+# Variable to hold the Property Value
+prop_value=""
+getProperty()
+{
+prop_key=$1
+prop_value=`cat ${properties_file} | grep ${prop_key} | cut -d'=' -f2`
+}
+
+#Get the property value
+getProperty ${excelversioncontrolEnable}
+excelversioncontrolEnable=${prop_value}
+getProperty ${excelname}
+excelname=${prop_value}
+getProperty ${versioncontrolType}
+versioncontrol=${prop_value}
+getProperty ${allExcel}
+allExcel=${prop_value}
+
+
+if [[ $excelversioncontrolEnable == "true" ]];then
+  git pull origin main
+  response=$(git pull origin main 2>&1)
+  if [[ $response =~ "Already up to date" ]];then
+    findpushedfiles=($(git diff --name-only origin/main))
+    notpushed=($(git diff origin/$(git name-rev --name-only HEAD) --name-status))
+    filesList=($(echo ${findpushedfiles[@]} ${notpushed[@]} | tr ' ' '\n' | sort | uniq -u))
+    echo ${findpushedfiles[@]} ${notpushed[@]} | tr ' ' '\n' | sort | uniq -u
+    if [[ $allExcel == "no" ]];then
+      IFS=','
+        read -a excelList <<<"$excelname"
+    fi
+
+
+    finalSourceFolder=()
+        for i in ${!filesList[@]}; do
+        if ([[ ${filesList[$i]} =~ "Converted.csv" ]] && [[ $versioncontrol == "csv" ]] ); then
+          echo "in csv"
+                 finalSourceFolder+=(${filesList[$i]})
+        elif ([[ ${filesList[$i]} =~ "DecompressedFolder" ]] && [[ ! ${finalSourceFolder[*]} =~ ${filesList[$i]%%DecompressedFolder*} ]] && [[ $versioncontrol == "xml" ]]); then
+                 echo "in decomp"
+                sourceFolder=$(echo ${filesList[$i]} |sed 's/DecompressedFolder.*//')
+                 finalSourceFolder+=$sourceFolder
+#                  finalSourceFolder+=(${filesList[$i]})
+        fi
+    done
+
+    for i in ${!finalSourceFolder[@]}; do
+#      finalSourceFolder[i]=$(echo ${finalSourceFolder[i]} |sed 's/DecompressedFolder.*//')
+      echo "final source folder--"${finalSourceFolder[i]}
+    done
+
+
+    for i in ${!finalSourceFolder[@]}; do
+    	    if [[ $versioncontrol == "xml" ]];then
+      		 sourceFolder=./${finalSourceFolder[$i]}DecompressedFolder
+      		 destFile=./${finalSourceFolder[i]}.xlsx
+      		 destFile=./${destFile/\.\/excelversioncontrol\//}
+      		 echo "Source File Excel is $sourceFolder"
+           echo "Dest folder is $destFile"
+    		   method="Compression"
+           echo "method.."$method
+    		    # Compile and run the ExcelDecompression
+            java -cp ~/.m2/repository/com/ey/excel-version-control/$exceljarversion/excel-version-control-$exceljarversion.jar excelHelper.ExcelHelper $method $sourceFolder $destFile
+           git add $destFile
+            git commit -m 'Excel file committed' $destFile --no-verify
+            git push
+    	  elif [[ $versioncontrol == "csv" ]];then
+    		    method="ConvertToExcel"
+    		    sourceFile=./${finalSourceFolder[$i]}
+            destFolder=$(head -n 1 $sourceFile)
+            destFile=${destFolder/Excel\ Name\ :/}
+            echo "Source File Excel is $sourceFile"
+            echo "Dest folder is $destFile"
+
+    		   # Compile and run the ExcelToCSVConvertion
+    		   java -cp ~/.m2/repository/com/ey/excel-version-control/$exceljarversion/excel-version-control-$exceljarversion.jar excelHelper.ExcelHelper $method $sourceFile $destFile
+    	    git add $destFile
+           git commit -m 'Excel file committed' $destFile --no-verify
+           git push
+    	    fi
+    done
+    fi
+    fi
