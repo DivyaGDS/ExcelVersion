@@ -56,16 +56,13 @@ if [[ $excelversioncontrolEnable == "true" ]];then
           echo "in csv"
                  finalSourceFolder+=(${filesList[$i]})
         elif ([[ ${filesList[$i]} =~ "DecompressedFolder" ]] && [[ ! ${finalSourceFolder[*]} =~ ${filesList[$i]%%DecompressedFolder*} ]] && [[ $versioncontrol == "xml" ]]); then
-                 echo "in decomp"
-                sourceFolder=$(echo ${filesList[$i]} |sed 's/DecompressedFolder.*//')
-                 finalSourceFolder+=$sourceFolder
-#                  finalSourceFolder+=(${filesList[$i]})
+                 finalSourceFolder+=(${filesList[$i]})
         fi
     done
 
     for i in ${!finalSourceFolder[@]}; do
-#      finalSourceFolder[i]=$(echo ${finalSourceFolder[i]} |sed 's/DecompressedFolder.*//')
-      echo "final source folder--"${finalSourceFolder[i]}
+       finalSourceFolder[i]=$(echo ${finalSourceFolder[i]} |sed 's/DecompressedFolder.*//')
+       echo "final source folder--"${finalSourceFolder[$i]}
     done
 
 
