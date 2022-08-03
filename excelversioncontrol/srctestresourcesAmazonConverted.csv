@@ -1,5 +1,5 @@
 Excel Name :./src/test/resources/Amazon.xlsx
-Sheet Name :Amazon
+Sheet Name :Amazonname
 element_type,variable,value,id,xpath,css,
 data,amazon_homepage,http://www.amazon.com,
 textbox,search_bar,test,twotabsearchtextbox,
