@@ -1,0 +1,14 @@
+Excel Name :./src/test/resources/NewExcel.xlsx
+Sheet Name :Sheet1
+element_type,variable,value,new,header,updatehead,newlyaddded,new,adding,
+data,home2,http://www.amazon.com,testvalue,new value,divya,divya,divya,add,
+new data,variable,value,newt,valueadded,divya,divya,add,
+updateconflict,SFSD,SDFS,FEFE,removed,raja,
+update,new,divya,divya,new,adding,
+divya,d,d,add,siva,raja,update,
+Sheet Name :TestSheet
+header1,header2,
+row1,row1,
+Sheet Name :csvtest
+csv,csv,
+csv,csv,
