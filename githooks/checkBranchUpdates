@@ -1,9 +1,9 @@
 #!/bin/sh
 #
-# An example hook script to prepare a packed repository for use over
-# dumb transports.
-#
-# To enable this hook, rename this file to "post-update".
+# A script to check the updates from branches
+# If branch is update to date and excel needs
+# to be version controlled, then compress the
+# XML or convert the csv file to Excel
 
 # File path
 properties_file="./src/main/resources/excelversioncontrol.properties"
@@ -37,18 +37,22 @@ allExcel=${prop_value}
 
 
 if [[ $excelversioncontrolEnable == "true" ]];then
-  git pull origin main
-  response=$(git pull origin main 2>&1)
+  defaultBranch=$(git branch | grep -o -m1 "\b\(master\|main\)\b")
+
+  git pull origin $defaultBranch
+  response=$(git pull origin $defaultBranch 2>&1)
+
   if [[ $response =~ "Already up to date" ]];then
-    findpushedfiles=($(git diff --name-only origin/main))
+    # Get the list of files pushed and check if it an decompressed/csv files
+    findpushedfiles=($(git diff --name-only origin/$defaultBranch))
     notpushed=($(git diff origin/$(git name-rev --name-only HEAD) --name-status))
     filesList=($(echo ${findpushedfiles[@]} ${notpushed[@]} | tr ' ' '\n' | sort | uniq -u))
     echo ${findpushedfiles[@]} ${notpushed[@]} | tr ' ' '\n' | sort | uniq -u
+
     if [[ $allExcel == "no" ]];then
       IFS=','
         read -a excelList <<<"$excelname"
     fi
-
 
     finalSourceFolder=()
         for i in ${!filesList[@]}; do
@@ -90,7 +94,7 @@ if [[ $excelversioncontrolEnable == "true" ]];then
 
     		   # Compile and run the ExcelToCSVConvertion
     		   java -cp ~/.m2/repository/com/ey/excel-version-control/$exceljarversion/excel-version-control-$exceljarversion.jar excelHelper.ExcelHelper $method $sourceFile $destFile
-    	    git add $destFile
+    	     git add $destFile
            git commit -m 'Excel file committed' $destFile --no-verify
            git push
     	    fi
