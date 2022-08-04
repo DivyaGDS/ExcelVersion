@@ -15,8 +15,8 @@ public class ExcelDecompressorTest {
 
     @Test
     public void testUnzipExcelFile() throws IOException {
-        String sourceExcelFilePath = "src/message/resources/ExcelTest.xlsx";
-        String destDirectoryPath = "src/message/resources/Excelpageobjectsdecompressedfolder";
+        String sourceExcelFilePath = "src/test/resources/ExcelTest.xlsx";
+        String destDirectoryPath = "src/test/resources/Excelpageobjectsdecompressedfolder";
         ExcelHelper.extractExcelFile(sourceExcelFilePath, destDirectoryPath);
     }
 
